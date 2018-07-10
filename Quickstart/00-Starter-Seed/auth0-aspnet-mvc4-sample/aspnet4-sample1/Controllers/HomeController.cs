@@ -1,8 +1,4 @@
-﻿using System.Configuration;
-using System.Globalization;
-using System.IdentityModel.Services;
-using System.Linq;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using System.Web.Mvc;
 
 namespace aspnet4_sample1.Controllers
@@ -11,10 +7,10 @@ namespace aspnet4_sample1.Controllers
     {
         public ActionResult Index()
         {
-            string name = ClaimsPrincipal.Current.FindFirst("name")?.Value;
-            ViewBag.Name = name;
+            ViewBag.AccessToken = ClaimsPrincipal.Current.FindFirst("access_token")?.Value;
+			ViewBag.IdToken = ClaimsPrincipal.Current.FindFirst("id_token")?.Value;
 
-            return View();
+			return View();
         }
 
         public ActionResult About()

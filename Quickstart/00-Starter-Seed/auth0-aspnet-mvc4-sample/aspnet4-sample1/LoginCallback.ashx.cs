@@ -15,6 +15,10 @@ namespace aspnet4_sample1
     {
         public override async Task ProcessRequestAsync(HttpContext context)
         {
+			if(context.Request.QueryString["code"] == null)
+			{
+				context.Response.Redirect("/");
+			}
             AuthenticationApiClient client = new AuthenticationApiClient(
                 new Uri(string.Format("https://{0}", ConfigurationManager.AppSettings["auth0:Domain"])));
 
@@ -30,16 +34,12 @@ namespace aspnet4_sample1
 
             var user = new List<KeyValuePair<string, object>>
             {
-                new KeyValuePair<string, object>("name", profile.FullName ?? profile.PreferredUsername ?? profile.Email),
-                new KeyValuePair<string, object>("email", profile.Email),
-                new KeyValuePair<string, object>("family_name", profile.LastName),
-                new KeyValuePair<string, object>("given_name", profile.FirstName),
-                new KeyValuePair<string, object>("nickname", profile.NickName),
-                new KeyValuePair<string, object>("picture", profile.Picture),
+                new KeyValuePair<string, object>("name", profile.FullName ?? profile.PreferredUsername ?? profile.Email ?? string.Empty),
+                new KeyValuePair<string, object>("email", profile.Email ?? string.Empty),
                 new KeyValuePair<string, object>("user_id", profile.UserId),
                 new KeyValuePair<string, object>("id_token", token.IdToken),
                 new KeyValuePair<string, object>("access_token", token.AccessToken),
-                new KeyValuePair<string, object>("refresh_token", token.RefreshToken)
+                //new KeyValuePair<string, object>("refresh_token", token.RefreshToken)
             };
 
             // NOTE: Uncomment the following code in order to include claims from associated identities
@@ -57,9 +57,10 @@ namespace aspnet4_sample1
             //       to a ClaimsPrincipal for each request using the SessionAuthenticationModule HttpModule. 
             //       You can choose your own mechanism to keep the user authenticated (FormsAuthentication, Session, etc.)
             FederatedAuthentication.SessionAuthenticationModule.CreateSessionCookie(user);
-
+			
             var state = context.Request.QueryString["state"];
-            if (state != null)
+			
+			if (state != null)
             {
                 var stateValues = HttpUtility.ParseQueryString(context.Request.QueryString["state"]);
                 var redirectUrl = stateValues["ru"];
