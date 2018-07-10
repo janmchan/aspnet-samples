@@ -22,9 +22,9 @@ namespace aspnet4_sample1.Controllers
 
             var authorizeUrlBuilder = client.BuildAuthorizationUrl()
                 .WithClient(ConfigurationManager.AppSettings["auth0:ClientId"])
-                .WithRedirectUrl(redirectUri.ToString())
+				.WithRedirectUrl(redirectUri.ToString())
                 .WithResponseType(AuthorizationResponseType.Code)
-                .WithScope("openid email")
+                .WithScope("openid email offline_access")
                 // adding this audience will cause Auth0 to use the OIDC-Conformant pipeline
                 // you don't need it if your client is flagged as OIDC-Conformant (Advance Settings | OAuth)
                 .WithAudience(ConfigurationManager.AppSettings["resourceOwnerUrl"]);
@@ -34,8 +34,8 @@ namespace aspnet4_sample1.Controllers
                 var state = "ru=" + HttpUtility.UrlEncode(returnUrl);
                 authorizeUrlBuilder.WithState(state);
             }
-
-            return new RedirectResult(authorizeUrlBuilder.Build().ToString());
+			var url = authorizeUrlBuilder.Build().ToString();
+			return new RedirectResult(url);
         }
 
         public ActionResult Logout()

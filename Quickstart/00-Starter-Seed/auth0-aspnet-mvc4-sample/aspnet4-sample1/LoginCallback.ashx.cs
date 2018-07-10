@@ -39,7 +39,7 @@ namespace aspnet4_sample1
                 new KeyValuePair<string, object>("user_id", profile.UserId),
                 new KeyValuePair<string, object>("id_token", token.IdToken),
                 new KeyValuePair<string, object>("access_token", token.AccessToken),
-                //new KeyValuePair<string, object>("refresh_token", token.RefreshToken)
+                new KeyValuePair<string, object>("refresh_token", token.RefreshToken)
             };
 
             // NOTE: Uncomment the following code in order to include claims from associated identities
