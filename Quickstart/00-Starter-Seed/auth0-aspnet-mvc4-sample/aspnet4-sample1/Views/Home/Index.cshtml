@@ -1,45 +1,58 @@
-﻿@{
+﻿@model aspnet4_sample1.Models.OAuth2Model
+@{
     ViewBag.Title = "Home Page";
 }
+
 @using System.Security.Claims;
 <div class="jumbotron">
     <h1>OAuth2 Simulator</h1>
-    <p class="lead">Simulate OAuth2 Authentication using Auth0.</p>
-    
-    @if (User.Identity.IsAuthenticated)
-	{
-		<p>Login as @ViewBag.Name </p>
-		<div class="container">
-			<div class="row">
-				<div class="col-md-2"><label>Access Token:</label></div>
-				<div class="col-md-4"><input class="form-control" id="accessToken" value="@ViewBag.AccessToken" /></div>
-				<button type="button" class="btn btn-default btn-copy js-tooltip js-copy" data-toggle="tooltip" data-placement="bottom" data-clipboard-target="#accessToken" title="Copy to clipboard"/>
-				<!-- icon from google's material design library -->
-				<svg class="icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M17,9H7V7H17M17,13H7V11H17M14,17H7V15H14M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z" /></svg>
-</div>
-			
-			<div class="row">
-				<div class="col-md-2"><label>Id Token:</label></div>
-				<div class="col-md-4"><input class="form-control" id="idToken" value="@ViewBag.IdToken" /></div>
-				<button type="button" class="btn btn-default btn-copy js-tooltip js-copy" data-toggle="tooltip" data-placement="bottom" data-clipboard-target="#idToken" title="Copy to clipboard" />
-				<!-- icon from google's material design library -->
-				<svg class="icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M17,9H7V7H17M17,13H7V11H17M14,17H7V15H14M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z" /></svg>
-			</div>
-			<div class="row">
-				<div class="col-md-2"><label>Refresh Token:</label></div>
-				<div class="col-md-4"><input class="form-control" id="refreshToken" value="@ViewBag.RefreshToken" /></div>
-				<button type="button" class="btn btn-default btn-copy js-tooltip js-copy" data-toggle="tooltip" data-placement="bottom" data-clipboard-target="#refreshToken" title="Copy to clipboard" />
-				<!-- icon from google's material design library -->
-				<svg class="icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M17,9H7V7H17M17,13H7V11H17M14,17H7V15H14M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z" /></svg>
-			</div>
+    <p class="lead">Simulates OAuth2 Authentication using Auth0.</p>
+		@if (User.Identity.IsAuthenticated)
+		{
+			<p>Logged in as @ViewBag.Name </p>
+			<div class="container">
+				<div class="row">
+					<div class="col-md-2"><label>Access Token:</label></div>
+					<div class="col-md-4"><input class="form-control" id="accessToken" value="@ViewBag.AccessToken" /></div>
+					<button type="button" class="btn btn-default btn-copy js-tooltip js-copy" data-toggle="tooltip" data-placement="bottom" data-clipboard-target="#accessToken" title="Copy to clipboard" />
+					<!-- icon from google's material design library -->
+					<svg class="icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M17,9H7V7H17M17,13H7V11H17M14,17H7V15H14M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z" /></svg>
+				</div>
 
-		</div>
-        <p><a href="/Account/Logout" class="btn btn-primary btn-lg">Logout</a></p>
-    }
-    else {
-        <p>@Html.ActionLink("Login with Auth0", "Login", "Account", null, new { @class = "btn btn-primary btn-lg" })</p>
-    }
-</div>
+				<div class="row">
+					<div class="col-md-2"><label>Id Token:</label></div>
+					<div class="col-md-4"><input class="form-control" id="idToken" value="@ViewBag.IdToken" /></div>
+					<button type="button" class="btn btn-default btn-copy js-tooltip js-copy" data-toggle="tooltip" data-placement="bottom" data-clipboard-target="#idToken" title="Copy to clipboard" />
+					<!-- icon from google's material design library -->
+					<svg class="icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M17,9H7V7H17M17,13H7V11H17M14,17H7V15H14M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z" /></svg>
+				</div>
+				<div class="row">
+					<div class="col-md-2"><label>Refresh Token:</label></div>
+					<div class="col-md-4"><input class="form-control" id="refreshToken" value="@ViewBag.RefreshToken" /></div>
+					<button type="button" class="btn btn-default btn-copy js-tooltip js-copy" data-toggle="tooltip" data-placement="bottom" data-clipboard-target="#refreshToken" title="Copy to clipboard" />
+					<!-- icon from google's material design library -->
+					<svg class="icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M17,9H7V7H17M17,13H7V11H17M14,17H7V15H14M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z" /></svg>
+				</div>
+
+			</div>
+			<p><a href="/Account/Logout" class="btn btn-primary btn-lg">Logout</a></p>
+		}
+		else
+		{
+			using (Html.BeginForm("Login", "Account", FormMethod.Post))
+			{
+				<div class="container">
+					<div class="row">
+						<div class="col-md-2"><label>Audience:</label></div>
+						<div class="col-md-4">@Html.TextBoxFor(m => m.Audience, new { @class = "form-control" }) </div>
+					</div>
+				</div>
+				<button class="btn btn-primary btn-lg">Login with Auth0</button>
+			}
+
+		}
+	</div>
+
 <script>
 	function copyToClipboard(text, el) {
 		var copyTest = document.queryCommandSupported('copy');

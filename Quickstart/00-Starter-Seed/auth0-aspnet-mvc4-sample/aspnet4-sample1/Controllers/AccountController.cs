@@ -1,4 +1,5 @@
-﻿using Auth0.AuthenticationApi;
+﻿using aspnet4_sample1.Models;
+using Auth0.AuthenticationApi;
 using Auth0.AuthenticationApi.Models;
 using System;
 using System.Configuration;
@@ -11,7 +12,8 @@ namespace aspnet4_sample1.Controllers
 {
     public class AccountController : Controller
     {
-        public ActionResult Login(string returnUrl)
+		[HttpPost]
+        public ActionResult Login(OAuth2Model model)
         {
             var client = new AuthenticationApiClient(
                 new Uri(string.Format("https://{0}", ConfigurationManager.AppSettings["auth0:Domain"])));
@@ -25,13 +27,11 @@ namespace aspnet4_sample1.Controllers
 				.WithRedirectUrl(redirectUri.ToString())
                 .WithResponseType(AuthorizationResponseType.Code)
                 .WithScope("openid email offline_access")
-                // adding this audience will cause Auth0 to use the OIDC-Conformant pipeline
-                // you don't need it if your client is flagged as OIDC-Conformant (Advance Settings | OAuth)
-                .WithAudience(ConfigurationManager.AppSettings["resourceOwnerUrl"]);
+                .WithAudience(string.IsNullOrEmpty(model.Audience) ? ConfigurationManager.AppSettings["resourceOwnerUrl"] : model.Audience);
 
-            if (!string.IsNullOrEmpty(returnUrl))
+            if (!string.IsNullOrEmpty(model.ReturnUrl))
             {
-                var state = "ru=" + HttpUtility.UrlEncode(returnUrl);
+                var state = "ru=" + HttpUtility.UrlEncode(model.ReturnUrl);
                 authorizeUrlBuilder.WithState(state);
             }
 			var url = authorizeUrlBuilder.Build().ToString();
